@@ -1,0 +1,39 @@
+<div class="page-wrapper">
+  <div class="tasks-card">
+    <h2>Your Tasks 📋</h2>
+
+    <!-- Add Task Form -->
+    <form (ngSubmit)="addOrUpdateTask()">
+      <input
+        [(ngModel)]="taskTitle"
+        name="title"
+        placeholder="Task title"
+        required
+      />
+      <textarea
+        [(ngModel)]="taskDesc"
+        name="description"
+        placeholder="Description"
+      ></textarea>
+      <button type="submit">{{ editMode ? "Update" : "Add" }} Task</button>
+    </form>
+
+    <!-- Task List -->
+    <ul class="task-list">
+      <li *ngFor="let task of tasks" [class.completed]="task.completed">
+        <div class="task-item">
+          <span>{{ task.title }}</span>
+          <span>{{ task.completed ? "✅ Done" : "🕓 Pending" }}</span>
+        </div>
+        <p *ngIf="task.description">{{ task.description }}</p>
+
+        <!-- Edit/Delete buttons -->
+        <div class="actions">
+          <button (click)="editTask(task)">Edit</button>
+          <button (click)="deleteTask(task.id)">Delete</button>
+        </div>
+      </li>
+    </ul>
+    <button class="back-btn" routerLink="/dashboard">Back to Dashboard</button>
+  </div>
+</div>

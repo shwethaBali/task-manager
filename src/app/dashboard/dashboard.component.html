@@ -1,0 +1,31 @@
+<div class="page-wrapper">
+  <div class="dashboard-card">
+    <h2>Welcome to Your Dashboard 🎯</h2>
+    <p class="subtitle">Here’s a quick overview of your tasks</p>
+
+    <div *ngIf="tasks.length > 0; else noTasks">
+      <ul class="task-list">
+        <li *ngFor="let task of tasks" [class.completed]="task.completed">
+          <div class="task-item">
+            <span class="task-title">{{ task.title }}</span>
+            <span class="task-status">
+              {{ task.completed ? "✅ Done" : "🕓 Pending" }}
+            </span>
+          </div>
+          <p class="task-desc" *ngIf="task.description">
+            {{ task.description }}
+          </p>
+        </li>
+      </ul>
+    </div>
+
+    <ng-template #noTasks>
+      <p class="empty">You have no tasks yet. Start adding some!</p>
+    </ng-template>
+
+    <div class="actions">
+      <button class="btn-primary" (click)="goToTasks()">Manage Tasks</button>
+      <button class="btn-secondary" (click)="logout()">Logout</button>
+    </div>
+  </div>
+</div>
