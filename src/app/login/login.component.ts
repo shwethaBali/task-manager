@@ -17,8 +17,8 @@ export class LoginComponent {
 
   // Example users
   users: User[] = [
-    { username: 'admin', password: 'admin123', role: 'admin' },
-    { username: 'user', password: 'user123', role: 'user' }
+    { username: 'admin', password: 'Administrator123!', role: 'admin' },
+    { username: 'user', password: 'User123!', role: 'user' }
   ];
 
   constructor(private router: Router) {}
