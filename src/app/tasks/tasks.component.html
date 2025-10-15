@@ -2,8 +2,8 @@
   <div class="tasks-card">
     <h2>Your Tasks 📋</h2>
 
-    <!-- Add Task Form -->
-    <form (ngSubmit)="addOrUpdateTask()">
+    <!-- Add Task Form (Admins Only) -->
+    <form *ngIf="userRole === 'admin'" (ngSubmit)="addOrUpdateTask()">
       <input
         [(ngModel)]="taskTitle"
         name="title"
@@ -22,18 +22,22 @@
     <ul class="task-list">
       <li *ngFor="let task of tasks" [class.completed]="task.completed">
         <div class="task-item">
-          <span>{{ task.title }}</span>
-          <span>{{ task.completed ? "✅ Done" : "🕓 Pending" }}</span>
+          <span class="task-title">{{ task.title }}</span>
+          <span class="task-status">{{
+            task.completed ? "✅ Done" : "🕓 Pending"
+          }}</span>
         </div>
         <p *ngIf="task.description">{{ task.description }}</p>
 
-        <!-- Edit/Delete buttons -->
-        <div class="actions">
+        <!-- Admin-only Edit/Delete buttons -->
+        <div class="actions" *ngIf="userRole === 'admin'">
           <button (click)="editTask(task)">Edit</button>
           <button (click)="deleteTask(task.id)">Delete</button>
         </div>
       </li>
     </ul>
+
     <button class="back-btn" routerLink="/dashboard">Back to Dashboard</button>
+    <button class="btn-secondary" (click)="logout()">Logout</button>
   </div>
 </div>

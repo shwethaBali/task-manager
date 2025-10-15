@@ -1,26 +1,30 @@
 import { Component } from '@angular/core';
 import { TaskService } from '../task.service';
 import { Task } from '../models/task.model';
+import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-tasks',
   standalone: true,
-  imports: [CommonModule, RouterModule, FormsModule],
   templateUrl: './tasks.component.html',
-  styleUrls: ['./tasks.component.css']
+  styleUrls: ['./tasks.component.css'],
+  imports: [CommonModule, FormsModule, RouterModule]
+
 })
 export class TasksComponent {
   tasks: Task[] = [];
+  userRole: string | null = null;
   taskTitle = '';
   taskDesc = '';
   editMode = false;
   editId: number | null = null;
 
-  constructor(private taskService: TaskService) {
+  constructor(private taskService: TaskService, private router: Router) {
     this.tasks = this.taskService.getTasks();
+    const user = JSON.parse(localStorage.getItem('loggedInUser') || 'null');
+    this.userRole = user?.role || null;
   }
 
   addOrUpdateTask() {
@@ -61,5 +65,10 @@ export class TasksComponent {
     this.taskDesc = '';
     this.editMode = false;
     this.editId = null;
+  }
+
+  logout() {
+    localStorage.removeItem('loggedInUser');
+    this.router.navigate(['/']);
   }
 }

@@ -1,21 +1,26 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { RouterModule, Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { TaskService } from '../task.service';
 import { Task } from '../models/task.model';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, RouterModule],
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.css']
+  styleUrls: ['./dashboard.component.css'],
+  imports: [CommonModule, RouterModule],
+
 })
 export class DashboardComponent {
   tasks: Task[] = [];
+  userRole: string | null = null;
 
   constructor(private router: Router, private taskService: TaskService) {
     this.tasks = this.taskService.getTasks();
+
+    const user = JSON.parse(localStorage.getItem('loggedInUser') || 'null');
+    this.userRole = user?.role || null;
   }
 
   goToTasks() {
@@ -23,7 +28,7 @@ export class DashboardComponent {
   }
 
   logout() {
-    localStorage.removeItem('loggedIn');
+    localStorage.removeItem('loggedInUser');
     this.router.navigate(['/']);
   }
 }
